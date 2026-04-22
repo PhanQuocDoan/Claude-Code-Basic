@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ShopEase — E-Commerce Platform</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            dark: { bg: '#090A14', card: '#111222', border: '#1C1E2E', muted: '#2A2D42' },
+            primary: '#DF6B33', primaryHover: '#C25A28',
+          },
+          fontFamily: { poppins: ['Poppins', 'sans-serif'], inter: ['Inter', 'sans-serif'] },
+        },
+      },
+    }
+  </script>
+  <style>
+    body { background-color: #090A14; }
+    .nav-link { position: relative; }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: #DF6B33;
+      transition: width 0.2s;
+    }
+    .nav-link:hover::after { width: 100%; }
+    .hero-gradient {
+      background: radial-gradient(ellipse at 60% 50%, rgba(223,107,51,0.15) 0%, transparent 70%);
+    }
+    .product-card:hover { border-color: #DF6B33; transform: translateY(-4px); }
+    .product-card { transition: all 0.25s ease; }
+    .btn-primary {
+      background: #DF6B33;
+      transition: all 0.2s;
+    }
+    .btn-primary:hover {
+      background: #C25A28;
+      box-shadow: 0 8px 30px rgba(223,107,51,0.25);
+    }
+    .section-fade { opacity: 0; transform: translateY(20px); transition: opacity 0.6s, transform 0.6s; }
+    .section-fade.visible { opacity: 1; transform: translateY(0); }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #111222; }
+    ::-webkit-scrollbar-thumb { background: #2A2D42; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #DF6B33; }
+  </style>
+</head>
+<body class="min-h-screen bg-dark-bg text-white font-inter">
+
+  <!-- ============ NAVIGATION ============ -->
+  <header class="sticky top-0 z-50 bg-dark-bg/90 backdrop-blur-md border-b border-dark-border">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16 lg:h-18">
+        <!-- Logo -->
+        <a href="#" class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center">
+            <i data-lucide="shopping-bag" class="w-5 h-5 text-primary"></i>
+          </div>
+          <span class="font-poppins font-extrabold text-xl text-white">ShopEase</span>
+        </a>
+
+        <!-- Desktop Nav -->
+        <nav class="hidden lg:flex items-center gap-8">
+          <a href="#home" class="nav-link font-inter text-sm text-white font-medium">Home</a>
+          <a href="product.html" class="nav-link font-inter text-sm text-gray-400 hover:text-white transition-colors">Products</a>
+          <a href="About.html" class="nav-link font-inter text-sm text-gray-400 hover:text-white transition-colors">About</a>
+          <a href="contact.html" class="nav-link font-inter text-sm text-gray-400 hover:text-white transition-colors">Contact</a>
+        </nav>
+
+        <!-- Actions -->
+        <div class="hidden lg:flex items-center gap-3">
+          <a href="charts.html" class="flex items-center gap-2 px-4 py-2 rounded-xl border border-dark-border text-gray-400 hover:text-white hover:border-primary/50 transition-all font-inter text-sm">
+            <i data-lucide="bar-chart-2" class="w-4 h-4"></i>
+            Dashboard
+          </a>
+          <a href="login.html" class="flex items-center gap-2 btn-primary px-5 py-2.5 rounded-xl text-white font-inter text-sm font-semibold">
+            <i data-lucide="log-in" class="w-4 h-4"></i>
+            Sign In
+          </a>
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <button id="mobileMenuBtn" class="lg:hidden text-gray-400 hover:text-white transition-colors">
+          <i data-lucide="menu" class="w-6 h-6"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="hidden lg:hidden border-t border-dark-border bg-dark-card">
+      <div class="px-4 py-4 space-y-1">
+        <a href="#home" class="block px-4 py-3 rounded-xl text-gray-300 hover:text-white hover:bg-dark-muted transition-colors font-inter text-sm">Home</a>
+        <a href="product.html" class="block px-4 py-3 rounded-xl text-gray-300 hover:text-white hover:bg-dark-muted transition-colors font-inter text-sm">Products</a>
+        <a href="About.html" class="block px-4 py-3 rounded-xl text-gray-300 hover:text-white hover:bg-dark-muted transition-colors font-inter text-sm">About</a>
+        <a href="contact.html" class="block px-4 py-3 rounded-xl text-gray-300 hover:text-white hover:bg-dark-muted transition-colors font-inter text-sm">Contact</a>
+        <div class="pt-3 border-t border-dark-border flex flex-col gap-2">
+          <a href="charts.html" class="flex items-center gap-2 px-4 py-3 rounded-xl border border-dark-border text-gray-400 hover:text-white transition-all font-inter text-sm">
+            <i data-lucide="bar-chart-2" class="w-4 h-4"></i> Dashboard
+          </a>
+          <a href="login.html" class="flex items-center gap-2 btn-primary px-4 py-3 rounded-xl text-white font-inter text-sm font-semibold justify-center">
+            <i data-lucide="log-in" class="w-4 h-4"></i> Sign In
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============ HERO ============ -->
+  <section id="home" class="relative overflow-hidden">
+    <div class="hero-gradient absolute inset-0 pointer-events-none"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div>
+          <div class="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-full px-4 py-1.5 mb-6">
+            <i data-lucide="sparkles" class="w-3.5 h-3.5 text-primary"></i>
+            <span class="font-inter text-xs text-primary font-medium">New collection just arrived</span>
+          </div>
+          <h1 class="font-poppins font-extrabold text-4xl sm:text-5xl lg:text-6xl text-white leading-tight mb-6">
+            Discover the Best
+            <span class="text-primary"> Products</span>
+            for Your Lifestyle
+          </h1>
+          <p class="font-inter text-gray-400 text-base lg:text-lg leading-relaxed mb-8 max-w-lg">
+            Browse thousands of premium products across Electronics, Fashion, Home & Living, Sports, and more. Shop with confidence.
+          </p>
+          <div class="flex flex-wrap gap-4">
+            <a href="product.html" class="btn-primary px-7 py-3.5 rounded-xl text-white font-poppins font-bold text-sm flex items-center gap-2">
+              Shop Now
+              <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </a>
+            <a href="About.html" class="px-7 py-3.5 rounded-xl border border-dark-border text-gray-300 hover:text-white hover:border-gray-500 transition-all font-inter font-semibold text-sm flex items-center gap-2">
+              <i data-lucide="play-circle" class="w-4 h-4"></i>
+              Learn More
+            </a>
+          </div>
+
+          <!-- Stats -->
+          <div class="flex flex-wrap gap-8 mt-12 pt-8 border-t border-dark-border">
+            <div>
+              <p class="font-poppins font-extrabold text-2xl text-white">50K+</p>
+              <p class="font-inter text-xs text-gray-500 mt-1">Active Products</p>
+            </div>
+            <div>
+              <p class="font-poppins font-extrabold text-2xl text-white">12K+</p>
+              <p class="font-inter text-xs text-gray-500 mt-1">Happy Customers</p>
+            </div>
+            <div>
+              <p class="font-poppins font-extrabold text-2xl text-white">98%</p>
+              <p class="font-inter text-xs text-gray-500 mt-1">Satisfaction Rate</p>
+            </div>
+            <div>
+              <p class="font-poppins font-extrabold text-2xl text-white">24/7</p>
+              <p class="font-inter text-xs text-gray-500 mt-1">Customer Support</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hero Visual -->
+        <div class="hidden lg:flex justify-center">
+          <div class="relative">
+            <div class="w-80 h-80 rounded-3xl bg-gradient-to-br from-primary/20 to-transparent border border-primary/20 flex items-center justify-center">
+              <div class="grid grid-cols-2 gap-3">
+                <div class="w-28 h-36 rounded-2xl bg-dark-muted border border-dark-border flex items-center justify-center">
+                  <i data-lucide="headphones" class="w-10 h-10 text-primary/60"></i>
+                </div>
+                <div class="w-28 h-36 rounded-2xl bg-dark-muted border border-dark-border flex items-center justify-center mt-8">
+                  <i data-lucide="watch" class="w-10 h-10 text-blue-400/60"></i>
+                </div>
+                <div class="w-28 h-36 rounded-2xl bg-dark-muted border border-dark-border flex items-center justify-center -mt-4">
+                  <i data-lucide="shirt" class="w-10 h-10 text-purple-400/60"></i>
+                </div>
+                <div class="w-28 h-36 rounded-2xl bg-dark-muted border border-dark-border flex items-center justify-center -mt-12">
+                  <i data-lucide="smartphone" class="w-10 h-10 text-green-400/60"></i>
+                </div>
+              </div>
+            </div>
+            <!-- Floating badges -->
+            <div class="absolute -top-4 -right-4 bg-dark-card border border-dark-border rounded-2xl px-4 py-3 shadow-xl">
+              <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-lg bg-green-500/10 flex items-center justify-center">
+                  <i data-lucide="truck" class="w-4 h-4 text-green-400"></i>
+                </div>
+                <div>
+                  <p class="font-inter text-xs font-semibold text-white">Free Shipping</p>
+                  <p class="font-inter text-xs text-gray-500">Orders $50+</p>
+                </div>
+              </div>
+            </div>
+            <div class="absolute -bottom-4 -left-4 bg-dark-card border border-dark-border rounded-2xl px-4 py-3 shadow-xl">
+              <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+                  <i data-lucide="star" class="w-4 h-4 text-primary"></i>
+                </div>
+                <div>
+                  <p class="font-inter text-xs font-semibold text-white">4.9 Rating</p>
+                  <p class="font-inter text-xs text-gray-500">12K+ reviews</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CATEGORIES ============ -->
+  <section class="py-16 border-t border-dark-border">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between mb-10">
+        <div>
+          <h2 class="font-poppins font-bold text-2xl text-white">Shop by Category</h2>
+          <p class="font-inter text-sm text-gray-500 mt-1">Find exactly what you need</p>
+        </div>
+      </div>
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4" id="categoriesRow"></div>
+    </div>
+  </section>
+
+  <!-- ============ PRODUCTS ============ -->
+  <section id="products" class="py-16 border-t border-dark-border">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between flex-wrap gap-4 mb-10">
+        <div>
+          <h2 class="font-poppins font-bold text-2xl text-white">Featured Products</h2>
+          <p class="font-inter text-sm text-gray-500 mt-1">Handpicked deals for you</p>
+        </div>
+        <div class="flex items-center gap-2 flex-wrap">
+          <button class="category-filter active px-4 py-2 rounded-xl font-inter text-sm font-medium bg-primary text-white transition-all" data-cat="all">All</button>
+          <button class="category-filter px-4 py-2 rounded-xl font-inter text-sm font-medium bg-dark-muted text-gray-400 border border-dark-border hover:text-white transition-all" data-cat="electronics">Electronics</button>
+          <button class="category-filter px-4 py-2 rounded-xl font-inter text-sm font-medium bg-dark-muted text-gray-400 border border-dark-border hover:text-white transition-all" data-cat="fashion">Fashion</button>
+          <button class="category-filter px-4 py-2 rounded-xl font-inter text-sm font-medium bg-dark-muted text-gray-400 border border-dark-border hover:text-white transition-all" data-cat="home">Home & Living</button>
+          <button class="category-filter px-4 py-2 rounded-xl font-inter text-sm font-medium bg-dark-muted text-gray-400 border border-dark-border hover:text-white transition-all" data-cat="sports">Sports</button>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5" id="productsGrid"></div>
+      <div class="text-center mt-10">
+        <a href="product.html" class="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl border border-dark-border text-gray-400 hover:text-white hover:border-primary/50 transition-all font-inter font-semibold text-sm">
+          View All Products
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ABOUT ============ -->
+  <section id="about" class="py-14 border-t border-dark-border">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col lg:flex-row gap-10 lg:gap-14 items-start">
+        <!-- Left: Content -->
+        <div class="lg:flex-1">
+          <div class="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-full px-4 py-1.5 mb-5">
+            <i data-lucide="info" class="w-3.5 h-3.5 text-primary"></i>
+            <span class="font-inter text-xs text-primary font-medium">About Us</span>
+          </div>
+          <h2 class="font-poppins font-extrabold text-3xl lg:text-4xl text-white leading-tight mb-4">
+            Empowering Shoppers Since <span class="text-primary">2018</span>
+          </h2>
+          <p class="font-inter text-gray-400 text-sm leading-relaxed mb-6">
+            Founded in San Francisco, ShopEase has grown into a trusted platform serving millions across 24 countries. We partner with top brands and independent sellers to offer 50,000+ products at competitive prices — all backed by 24/7 support, secure payments, and easy returns.
+          </p>
+          <div class="grid grid-cols-4 gap-3">
+            <div class="bg-dark-card rounded-xl border border-dark-border p-3 text-center">
+              <i data-lucide="shield-check" class="w-5 h-5 text-primary mx-auto mb-1.5"></i>
+              <p class="font-poppins font-bold text-white text-sm">100%</p>
+              <p class="font-inter text-xs text-gray-500">Secure Payments</p>
+            </div>
+            <div class="bg-dark-card rounded-xl border border-dark-border p-3 text-center">
+              <i data-lucide="refresh-cw" class="w-5 h-5 text-blue-400 mx-auto mb-1.5"></i>
+              <p class="font-poppins font-bold text-white text-sm">30-Day</p>
+              <p class="font-inter text-xs text-gray-500">Easy Returns</p>
+            </div>
+            <div class="bg-dark-card rounded-xl border border-dark-border p-3 text-center">
+              <i data-lucide="headphones" class="w-5 h-5 text-green-400 mx-auto mb-1.5"></i>
+              <p class="font-poppins font-bold text-white text-sm">24/7</p>
+              <p class="font-inter text-xs text-gray-500">Support</p>
+            </div>
+            <div class="bg-dark-card rounded-xl border border-dark-border p-3 text-center">
+              <i data-lucide="truck" class="w-5 h-5 text-purple-400 mx-auto mb-1.5"></i>
+              <p class="font-poppins font-bold text-white text-sm">Fast</p>
+              <p class="font-inter text-xs text-gray-500">Global Delivery</p>
+            </div>
+          </div>
+        </div>
+        <!-- Right: Team -->
+        <div class="lg:w-80 flex-shrink-0">
+          <h3 class="font-poppins font-bold text-base text-white mb-4">Leadership Team</h3>
+          <div class="space-y-3" id="teamGrid"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TESTIMONIALS ============ -->
+  <section class="py-16 border-t border-dark-border">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="font-poppins font-bold text-2xl text-white mb-2">What Our Customers Say</h2>
+        <p class="font-inter text-sm text-gray-500">Real reviews from real shoppers</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5" id="testimonialsRow"></div>
+    </div>
+  </section>
+
+  <!-- ============ CONTACT ============ -->
+  <section id="contact" class="py-14 border-t border-dark-border">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-5 gap-10 lg:gap-14">
+        <!-- Info -->
+        <div class="lg:col-span-2">
+          <div class="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-full px-4 py-1.5 mb-5">
+            <i data-lucide="mail" class="w-3.5 h-3.5 text-primary"></i>
+            <span class="font-inter text-xs text-primary font-medium">Contact Us</span>
+          </div>
+          <h2 class="font-poppins font-extrabold text-2xl lg:text-3xl text-white leading-tight mb-3">
+            Get in Touch
+          </h2>
+          <p class="font-inter text-gray-400 text-sm leading-relaxed mb-6">
+            Have questions or need help? Our support team is available 24/7.
+          </p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="flex items-center gap-3 bg-dark-card rounded-xl border border-dark-border p-3">
+              <div class="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                <i data-lucide="map-pin" class="w-4 h-4 text-primary"></i>
+              </div>
+              <div>
+                <p class="font-poppins font-semibold text-xs text-white">HQ</p>
+                <p class="font-inter text-xs text-gray-500">San Francisco, CA</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-3 bg-dark-card rounded-xl border border-dark-border p-3">
+              <div class="w-9 h-9 rounded-lg bg-blue-500/10 flex items-center justify-center flex-shrink-0">
+                <i data-lucide="phone" class="w-4 h-4 text-blue-400"></i>
+              </div>
+              <div>
+                <p class="font-poppins font-semibold text-xs text-white">Phone</p>
+                <p class="font-inter text-xs text-gray-500">+1 (555) 123-4567</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-3 bg-dark-card rounded-xl border border-dark-border p-3">
+              <div class="w-9 h-9 rounded-lg bg-green-500/10 flex items-center justify-center flex-shrink-0">
+                <i data-lucide="mail" class="w-4 h-4 text-green-400"></i>
+              </div>
+              <div>
+                <p class="font-poppins font-semibold text-xs text-white">Email</p>
+                <p class="font-inter text-xs text-gray-500">support@shopease.com</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-3 bg-dark-card rounded-xl border border-dark-border p-3">
+              <div class="w-9 h-9 rounded-lg bg-purple-500/10 flex items-center justify-center flex-shrink-0">
+                <i data-lucide="clock" class="w-4 h-4 text-purple-400"></i>
+              </div>
+              <div>
+                <p class="font-poppins font-semibold text-xs text-white">Hours</p>
+                <p class="font-inter text-xs text-gray-500">Mon–Fri 9AM–6PM</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contact Form -->
+        <div class="lg:col-span-3">
+          <form id="contactForm" novalidate class="bg-dark-card rounded-2xl border border-dark-border p-6">
+            <h3 class="font-poppins font-bold text-base text-white mb-5">Send us a message</h3>
+            <div class="space-y-4">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block font-inter text-xs text-gray-400 mb-1.5">Full Name</label>
+                  <div class="relative">
+                    <i data-lucide="user" class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"></i>
+                    <input type="text" id="contactName" placeholder="John Doe" class="w-full bg-dark-muted border border-dark-border rounded-xl py-2.5 pl-10 pr-4 font-inter text-sm text-gray-200 placeholder-gray-500 focus:outline-none focus:border-primary transition-colors" />
+                  </div>
+                  <p id="contactNameError" class="error-msg font-inter text-xs text-red-400 mt-1 pl-1 hidden"></p>
+                </div>
+                <div>
+                  <label class="block font-inter text-xs text-gray-400 mb-1.5">Email Address</label>
+                  <div class="relative">
+                    <i data-lucide="mail" class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"></i>
+                    <input type="email" id="contactEmail" placeholder="john@example.com" class="w-full bg-dark-muted border border-dark-border rounded-xl py-2.5 pl-10 pr-4 font-inter text-sm text-gray-200 placeholder-gray-500 focus:outline-none focus:border-primary transition-colors" />
+                  </div>
+                  <p id="contactEmailError" class="error-msg font-inter text-xs text-red-400 mt-1 pl-1 hidden"></p>
+                </div>
+              </div>
+              <div>
+                <label class="block font-inter text-xs text-gray-400 mb-1.5">Subject</label>
+                <div class="relative">
+                  <i data-lucide="tag" class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"></i>
+                  <input type="text" id="contactSubject" placeholder="How can we help?" class="w-full bg-dark-muted border border-dark-border rounded-xl py-2.5 pl-10 pr-4 font-inter text-sm text-gray-200 placeholder-gray-500 focus:outline-none focus:border-primary transition-colors" />
+                </div>
+                <p id="contactSubjectError" class="error-msg font-inter text-xs text-red-400 mt-1 pl-1 hidden"></p>
+              </div>
+              <div>
+                <label class="block font-inter text-xs text-gray-400 mb-1.5">Message</label>
+                <div class="relative">
+                  <i data-lucide="message-square" class="w-4 h-4 absolute left-3 top-3.5 text-gray-500"></i>
+                  <textarea id="contactMessage" rows="4" placeholder="Tell us more about your inquiry..." class="w-full bg-dark-muted border border-dark-border rounded-xl py-2.5 pl-10 pr-4 font-inter text-sm text-gray-200 placeholder-gray-500 focus:outline-none focus:border-primary transition-colors resize-none"></textarea>
+                </div>
+                <p id="contactMessageError" class="error-msg font-inter text-xs text-red-400 mt-1 pl-1 hidden"></p>
+              </div>
+              <button type="submit" class="w-full btn-primary py-3 rounded-xl text-white font-poppins font-bold text-sm flex items-center justify-center gap-2">
+                <i data-lucide="send" class="w-4 h-4"></i>
+                Send Message
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ NEWSLETTER ============ -->
+  <section class="py-16 border-t border-dark-border">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <i data-lucide="mail" class="w-10 h-10 text-primary mx-auto mb-4"></i>
+      <h2 class="font-poppins font-extrabold text-2xl text-white mb-3">Subscribe to Our Newsletter</h2>
+      <p class="font-inter text-sm text-gray-400 mb-8">Get the latest deals, new arrivals, and exclusive offers delivered to your inbox.</p>
+      <form id="newsletterForm" class="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto">
+        <div class="relative flex-1">
+          <i data-lucide="mail" class="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 text-gray-500"></i>
+          <input type="email" placeholder="Enter your email" class="w-full bg-dark-card border border-dark-border rounded-xl py-3.5 pl-11 pr-4 font-inter text-sm text-gray-200 placeholder-gray-500 focus:outline-none focus:border-primary transition-colors" />
+        </div>
+        <button type="submit" class="btn-primary px-6 py-3.5 rounded-xl text-white font-poppins font-bold text-sm whitespace-nowrap">
+          Subscribe
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="border-t border-dark-border bg-dark-card">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-10">
+        <!-- Brand -->
+        <div class="lg:col-span-1">
+          <div class="flex items-center gap-2.5 mb-4">
+            <div class="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center">
+              <i data-lucide="shopping-bag" class="w-5 h-5 text-primary"></i>
+            </div>
+            <span class="font-poppins font-extrabold text-xl text-white">ShopEase</span>
+          </div>
+          <p class="font-inter text-sm text-gray-500 leading-relaxed mb-4">
+            Your trusted e-commerce platform for premium products across Electronics, Fashion, Home & Living, and more.
+          </p>
+          <div class="flex items-center gap-3">
+            <a href="#" class="w-9 h-9 rounded-lg bg-dark-muted border border-dark-border flex items-center justify-center text-gray-400 hover:text-white hover:border-primary/50 transition-all">
+              <i data-lucide="twitter" class="w-4 h-4"></i>
+            </a>
+            <a href="#" class="w-9 h-9 rounded-lg bg-dark-muted border border-dark-border flex items-center justify-center text-gray-400 hover:text-white hover:border-primary/50 transition-all">
+              <i data-lucide="instagram" class="w-4 h-4"></i>
+            </a>
+            <a href="#" class="w-9 h-9 rounded-lg bg-dark-muted border border-dark-border flex items-center justify-center text-gray-400 hover:text-white hover:border-primary/50 transition-all">
+              <i data-lucide="facebook" class="w-4 h-4"></i>
+            </a>
+            <a href="#" class="w-9 h-9 rounded-lg bg-dark-muted border border-dark-border flex items-center justify-center text-gray-400 hover:text-white hover:border-primary/50 transition-all">
+              <i data-lucide="youtube" class="w-4 h-4"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div>
+          <h4 class="font-poppins font-bold text-sm text-white mb-4">Quick Links</h4>
+          <ul class="space-y-3">
+            <li><a href="home.html" class="font-inter text-sm text-gray-500 hover:text-white transition-colors">Home</a></li>
+            <li><a href="product.html" class="font-inter text-sm text-gray-500 hover:text-white transition-colors">Products</a></li>
+            <li><a href="About.html" class="font-inter text-sm text-gray-500 hover:text-white transition-colors">About Us</a></li>
+            <li><a href="contact.html" class="font-inter text-sm text-gray-500 hover:text-white transition-colors">Contact</a></li>
+          </ul>
+        </div>
+
+        <!-- Account -->
+        <div>
+          <h4 class="font-poppins font-bold text-sm text-white mb-4">Account</h4>
+          <ul class="space-y-3">
+            <li><a href="login.html" class="font-inter text-sm text-gray-500 hover:text-white transition-colors">Sign In</a></li>
+            <li><a href="register.html" class="font-inter text-sm text-gray-500 hover:text-white transition-colors">Create Account</a></li>
+            <li><a href="#" class="font-inter text-sm text-gray-500 hover:text-white transition-colors">My Orders</a></li>
+            <li><a href="charts.html" class="font-inter text-sm text-gray-500 hover:text-white transition-colors">Dashboard</a></li>
+          </ul>
+        </div>
+
+        <!-- Support -->
+        <div>
+          <h4 class="font-poppins font-bold text-sm text-white mb-4">Support</h4>
+          <ul class="space-y-3">
+            <li><a href="#" class="font-inter text-sm text-gray-500 hover:text-white transition-colors">Help Center</a></li>
+            <li><a href="contact.html" class="font-inter text-sm text-gray-500 hover:text-white transition-colors">Contact Us</a></li>
+            <li><a href="#" class="font-inter text-sm text-gray-500 hover:text-white transition-colors">Shipping Info</a></li>
+            <li><a href="#" class="font-inter text-sm text-gray-500 hover:text-white transition-colors">Privacy Policy</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="pt-8 border-t border-dark-border flex flex-col sm:flex-row items-center justify-between gap-4">
+        <p class="font-inter text-xs text-gray-500">&copy; 2026 ShopEase. All rights reserved.</p>
+        <p class="font-inter text-xs text-gray-500">Built with passion for great shopping experiences.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+
+    // ===================== MOCK DATA =====================
+    const categories = [
+      { name: 'Electronics',  icon: 'smartphone',   count: '12K+', color: '#DF6B33', bg: 'rgba(223,107,51,0.1)' },
+      { name: 'Fashion',       icon: 'shirt',         count: '8.5K+', color: '#60A5FA', bg: 'rgba(96,165,250,0.1)' },
+      { name: 'Home & Living', icon: 'home',          count: '6.2K+', color: '#A78BFA', bg: 'rgba(167,139,250,0.1)' },
+      { name: 'Sports',        icon: 'activity',      count: '4.8K+', color: '#34D399', bg: 'rgba(52,211,153,0.1)' },
+      { name: 'Books',         icon: 'book-open',     count: '3.1K+', color: '#F472B6', bg: 'rgba(244,114,182,0.1)' },
+      { name: 'Beauty',        icon: 'sparkles',       count: '5.4K+', color: '#FBBF24', bg: 'rgba(251,191,36,0.1)' },
+    ];
+
+    const products = [
+      { id: 1, name: 'Wireless Earbuds Pro',    price: 49.99,  oldPrice: 79.99,  category: 'electronics', rating: 4.8, reviews: 1240, badge: 'Best Seller', badgeColor: '#DF6B33', icon: 'headphones', inStock: true },
+      { id: 2, name: 'Smart Fitness Watch',      price: 129.99, oldPrice: 199.99, category: 'electronics', rating: 4.7, reviews: 892,  badge: 'New',         badgeColor: '#34D399', icon: 'watch',       inStock: true },
+      { id: 3, name: 'Premium Leather Jacket',  price: 89.99,  oldPrice: null,   category: 'fashion',    rating: 4.6, reviews: 567,  badge: null,        badgeColor: null,      icon: 'shirt',       inStock: true },
+      { id: 4, name: 'Air Purifier HEPA',        price: 149.99, oldPrice: 199.99, category: 'home',       rating: 4.5, reviews: 341,  badge: 'Hot',        badgeColor: '#F87171', icon: 'wind',        inStock: false },
+      { id: 5, name: 'Yoga Mat Premium',          price: 29.99,  oldPrice: 49.99,  category: 'sports',     rating: 4.9, reviews: 2103, badge: 'Best Seller', badgeColor: '#DF6B33', icon: 'activity',    inStock: true },
+      { id: 6, name: 'Vitamin C Serum',           price: 24.99,  oldPrice: 39.99,  category: 'beauty',     rating: 4.4, reviews: 876,  badge: 'Sale',       badgeColor: '#F87171', icon: 'droplets',    inStock: true },
+      { id: 7, name: 'Mechanical Keyboard',       price: 79.99,  oldPrice: 119.99, category: 'electronics', rating: 4.7, reviews: 654,  badge: 'New',         badgeColor: '#34D399', icon: 'keyboard',    inStock: true },
+      { id: 8, name: 'Running Shoes Elite',       price: 99.99,  oldPrice: null,   category: 'sports',     rating: 4.6, reviews: 432,  badge: null,        badgeColor: null,      icon: 'footprints',  inStock: true },
+    ];
+
+    const team = [
+      { name: 'Sarah Chen',    role: 'CEO & Co-Founder',    initials: 'SC', color: '#DF6B33' },
+      { name: 'Marcus Johnson', role: 'CTO',                 initials: 'MJ', color: '#60A5FA' },
+      { name: 'Priya Sharma',   role: 'Head of Product',    initials: 'PS', color: '#A78BFA' },
+      { name: 'Elena Rodriguez',role: 'Head of Operations',  initials: 'ER', color: '#34D399' },
+    ];
+
+    const testimonials = [
+      { name: 'James Wilson',    role: 'Verified Buyer',   text: 'ShopEase has completely changed how I shop online. The product quality is outstanding and delivery is always on time.', rating: 5 },
+      { name: 'Ana Martinez',   role: 'Verified Buyer',   text: 'Best customer service I have ever experienced. They resolved my return within 24 hours. Highly recommend!', rating: 5 },
+      { name: 'David Kim',      role: 'Verified Buyer',   text: 'The variety of products is amazing. I found everything I needed for my new home in one place.', rating: 4 },
+    ];
+
+    // ===================== RENDER =====================
+    // Categories
+    const catsRow = document.getElementById('categoriesRow');
+    categories.forEach(c => {
+      catsRow.innerHTML += `
+        <a href="product.html?cat=${c.name.toLowerCase().replace(' & ', '-').replace(' ', '-')}" class="group bg-dark-card rounded-2xl border border-dark-border p-5 flex flex-col items-center text-center hover:border-primary/50 transition-all cursor-pointer">
+          <div class="w-12 h-12 rounded-2xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform" style="background:${c.bg}">
+            <i data-lucide="${c.icon}" class="w-6 h-6" style="color:${c.color}"></i>
+          </div>
+          <p class="font-poppins font-semibold text-sm text-white mb-1">${c.name}</p>
+          <p class="font-inter text-xs text-gray-500">${c.count} items</p>
+        </a>`;
+    });
+
+    // Products
+    function renderProducts(cat = 'all') {
+      const grid = document.getElementById('productsGrid');
+      grid.innerHTML = '';
+      const filtered = cat === 'all' ? products : products.filter(p => p.category === cat);
+      filtered.forEach(p => {
+        const discount = p.oldPrice ? Math.round((1 - p.price / p.oldPrice) * 100) : 0;
+        grid.innerHTML += `
+          <div class="product-card bg-dark-card rounded-2xl border border-dark-border overflow-hidden cursor-pointer">
+            <div class="relative">
+              <div class="h-44 bg-dark-muted flex items-center justify-center">
+                <i data-lucide="${p.icon}" class="w-14 h-14 text-gray-600"></i>
+              </div>
+              ${p.badge ? `<span class="absolute top-3 left-3 px-2.5 py-1 rounded-lg text-xs font-inter font-semibold text-white" style="background:${p.badgeColor}">${p.badge}</span>` : ''}
+              ${discount ? `<span class="absolute top-3 right-3 px-2.5 py-1 rounded-lg text-xs font-inter font-bold text-white bg-red-500">-${discount}%</span>` : ''}
+              ${!p.inStock ? `<div class="absolute inset-0 bg-dark-bg/70 flex items-center justify-center"><span class="px-3 py-1.5 bg-dark-muted rounded-lg text-xs font-inter font-semibold text-gray-400 border border-dark-border">Out of Stock</span></div>` : ''}
+            </div>
+            <div class="p-4">
+              <p class="font-inter text-xs text-gray-500 uppercase tracking-wider mb-1">${p.category}</p>
+              <h3 class="font-poppins font-semibold text-sm text-white mb-2 truncate">${p.name}</h3>
+              <div class="flex items-center gap-1 mb-3">
+                ${Array.from({length: 5}, (_, i) => `<i data-lucide="star" class="w-3.5 h-3.5 ${i < Math.floor(p.rating) ? 'text-yellow-400 fill-yellow-400' : 'text-gray-600'}"></i>`).join('')}
+                <span class="font-inter text-xs text-gray-500 ml-1">(${p.reviews.toLocaleString()})</span>
+              </div>
+              <div class="flex items-center justify-between">
+                <div>
+                  <span class="font-poppins font-bold text-lg text-white">$${p.price.toFixed(2)}</span>
+                  ${p.oldPrice ? `<span class="font-inter text-xs text-gray-500 line-through ml-2">$${p.oldPrice.toFixed(2)}</span>` : ''}
+                </div>
+                <button class="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all" ${!p.inStock ? 'disabled' : ''}>
+                  <i data-lucide="shopping-cart" class="w-4 h-4"></i>
+                </button>
+              </div>
+            </div>
+          </div>`;
+      });
+      lucide.createIcons();
+    }
+    renderProducts();
+
+    // Category filter
+    document.querySelectorAll('.category-filter').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.category-filter').forEach(b => {
+          b.className = b.className.replace('bg-primary text-white', 'bg-dark-muted text-gray-400 border border-dark-border');
+        });
+        btn.className = btn.className.replace('bg-dark-muted text-gray-400 border border-dark-border', 'bg-primary text-white');
+        renderProducts(btn.dataset.cat);
+      });
+    });
+
+    // Team
+    const teamGrid = document.getElementById('teamGrid');
+    team.forEach(t => {
+      teamGrid.innerHTML += `
+        <div class="flex items-center gap-4 bg-dark-card rounded-xl border border-dark-border p-4">
+          <div class="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 font-poppins font-bold text-sm" style="background:${t.color}22;border:1.5px solid ${t.color}44;color:${t.color}">
+            ${t.initials}
+          </div>
+          <div>
+            <p class="font-poppins font-semibold text-sm text-white">${t.name}</p>
+            <p class="font-inter text-xs text-gray-500 mt-0.5">${t.role}</p>
+          </div>
+        </div>`;
+    });
+
+    // Testimonials
+    const testimonialsRow = document.getElementById('testimonialsRow');
+    testimonials.forEach(t => {
+      testimonialsRow.innerHTML += `
+        <div class="bg-dark-card rounded-2xl border border-dark-border p-6">
+          <div class="flex items-center gap-1 mb-4">
+            ${Array.from({length: 5}, (_, i) => `<i data-lucide="star" class="w-4 h-4 ${i < t.rating ? 'text-yellow-400 fill-yellow-400' : 'text-gray-600'}"></i>`).join('')}
+          </div>
+          <p class="font-inter text-sm text-gray-300 leading-relaxed mb-5">"${t.text}"</p>
+          <div class="flex items-center gap-3 pt-4 border-t border-dark-border">
+            <div class="w-9 h-9 rounded-full bg-primary/20 flex items-center justify-center">
+              <span class="font-poppins font-bold text-xs text-primary">${t.name.split(' ').map(n => n[0]).join('')}</span>
+            </div>
+            <div>
+              <p class="font-poppins font-semibold text-sm text-white">${t.name}</p>
+              <p class="font-inter text-xs text-gray-500">${t.role}</p>
+            </div>
+          </div>
+        </div>`;
+    });
+
+    // ===================== MOBILE MENU =====================
+    const mobileBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    mobileBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+      const icon = mobileBtn.querySelector('i');
+      if (mobileMenu.classList.contains('hidden')) {
+        icon.setAttribute('data-lucide', 'menu');
+      } else {
+        icon.setAttribute('data-lucide', 'x');
+      }
+      lucide.createIcons();
+    });
+
+    // Close mobile menu on link click
+    mobileMenu.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+    });
+
+    // ===================== CONTACT FORM =====================
+    const contactForm = document.getElementById('contactForm');
+
+    function validateContact() {
+      let ok = true;
+      const name    = document.getElementById('contactName');
+      const email   = document.getElementById('contactEmail');
+      const subject = document.getElementById('contactSubject');
+      const message = document.getElementById('contactMessage');
+
+      if (!name.value.trim()) {
+        document.getElementById('contactNameError').textContent = 'Name is required';
+        document.getElementById('contactNameError').classList.remove('hidden');
+        name.classList.add('!border-red-500');
+        ok = false;
+      } else {
+        document.getElementById('contactNameError').classList.add('hidden');
+        name.classList.remove('!border-red-500');
+      }
+
+      const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!email.value.trim()) {
+        document.getElementById('contactEmailError').textContent = 'Email is required';
+        document.getElementById('contactEmailError').classList.remove('hidden');
+        email.classList.add('!border-red-500');
+        ok = false;
+      } else if (!emailRe.test(email.value.trim())) {
+        document.getElementById('contactEmailError').textContent = 'Invalid email address';
+        document.getElementById('contactEmailError').classList.remove('hidden');
+        email.classList.add('!border-red-500');
+        ok = false;
+      } else {
+        document.getElementById('contactEmailError').classList.add('hidden');
+        email.classList.remove('!border-red-500');
+      }
+
+      if (!subject.value.trim()) {
+        document.getElementById('contactSubjectError').textContent = 'Subject is required';
+        document.getElementById('contactSubjectError').classList.remove('hidden');
+        subject.classList.add('!border-red-500');
+        ok = false;
+      } else {
+        document.getElementById('contactSubjectError').classList.add('hidden');
+        subject.classList.remove('!border-red-500');
+      }
+
+      if (!message.value.trim()) {
+        document.getElementById('contactMessageError').textContent = 'Message is required';
+        document.getElementById('contactMessageError').classList.remove('hidden');
+        message.classList.add('!border-red-500');
+        ok = false;
+      } else {
+        document.getElementById('contactMessageError').classList.add('hidden');
+        message.classList.remove('!border-red-500');
+      }
+
+      return ok;
+    }
+
+    contactForm.addEventListener('submit', e => {
+      e.preventDefault();
+      if (validateContact()) {
+        const btn = contactForm.querySelector('button[type="submit"]');
+        const orig = btn.innerHTML;
+        btn.innerHTML = '<i data-lucide="check-circle" class="w-4 h-4"></i> Message Sent!';
+        btn.disabled = true;
+        lucide.createIcons();
+        setTimeout(() => {
+          btn.innerHTML = orig;
+          btn.disabled = false;
+          contactForm.reset();
+          lucide.createIcons();
+        }, 3000);
+      }
+    });
+
+    // ===================== NEWSLETTER =====================
+    document.getElementById('newsletterForm').addEventListener('submit', e => {
+      e.preventDefault();
+      const btn = e.target.querySelector('button');
+      btn.innerHTML = '<i data-lucide="check" class="w-4 h-4"></i> Subscribed!';
+      lucide.createIcons();
+      setTimeout(() => {
+        btn.innerHTML = 'Subscribe';
+        e.target.reset();
+        lucide.createIcons();
+      }, 3000);
+    });
+
+    // ===================== SMOOTH SCROLL =====================
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const target = document.querySelector(a.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    lucide.createIcons();
+  </script>
+
+</body>
+</html>
