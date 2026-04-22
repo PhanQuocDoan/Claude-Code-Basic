@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us — ShopEase</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            dark: {
+              bg: '#090A14',
+              card: '#111222',
+              border: '#1C1E2E',
+              muted: '#2A2D42',
+            },
+            primary: '#DF6B33',
+            primaryHover: '#C25A28',
+          },
+          fontFamily: {
+            poppins: ['Poppins', 'sans-serif'],
+            inter: ['Inter', 'sans-serif'],
+          },
+        },
+      },
+    }
+  </script>
+  <style>
+    body { background-color: #090A14; }
+    .input-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #6B7280;
+      pointer-events: none;
+    }
+    .input-icon-textarea {
+      position: absolute;
+      left: 14px;
+      top: 16px;
+      color: #6B7280;
+      pointer-events: none;
+    }
+    .input-error {
+      border-color: #EF4444 !important;
+    }
+    .input-error:focus {
+      border-color: #EF4444 !important;
+      box-shadow: 0 0 0 1px #EF4444 !important;
+    }
+    .error-msg {
+      display: none;
+    }
+    .error-msg.show {
+      display: flex;
+    }
+    .nav-link { position: relative; }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: #DF6B33;
+      transition: width 0.2s;
+    }
+    .nav-link:hover::after { width: 100%; }
+    .nav-link.active::after { width: 100%; }
+  </style>
+</head>
+<body class="min-h-screen font-inter">
+
+  <!-- Navigation -->
+  <nav class="sticky top-0 z-50 bg-dark-bg/90 backdrop-blur-md border-b border-dark-border">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <!-- Logo -->
+        <a href="home.html" class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center">
+            <i data-lucide="shield-check" class="w-5 h-5 text-primary"></i>
+          </div>
+          <span class="font-poppins font-bold text-xl text-white">ShopEase</span>
+        </a>
+
+        <!-- Desktop Nav -->
+        <div class="hidden md:flex items-center gap-8">
+          <a href="home.html" class="nav-link font-inter text-sm text-gray-400 hover:text-white transition-colors">Home</a>
+          <a href="product.html" class="nav-link font-inter text-sm text-gray-400 hover:text-white transition-colors">Products</a>
+          <a href="About.html" class="nav-link font-inter text-sm text-gray-400 hover:text-white transition-colors">About</a>
+          <a href="contact.html" class="nav-link active font-inter text-sm text-primary hover:text-primary transition-colors">Contact</a>
+        </div>
+
+        <!-- Desktop Actions -->
+        <div class="hidden md:flex items-center gap-3">
+          <a href="login.html" class="font-inter text-sm text-gray-400 hover:text-white transition-colors">Sign In</a>
+          <a href="register.html" class="bg-primary hover:bg-primaryHover font-poppins font-semibold text-sm text-white px-4 py-2 rounded-lg transition-colors">Sign Up</a>
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <button id="mobileMenuBtn" class="md:hidden text-gray-400 hover:text-white transition-colors">
+          <i data-lucide="menu" class="w-6 h-6"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="hidden md:hidden border-t border-dark-border bg-dark-bg/95 backdrop-blur-md">
+      <div class="px-4 py-3 space-y-1">
+        <a href="home.html" class="block px-4 py-3 rounded-xl text-gray-300 hover:text-white hover:bg-dark-muted transition-colors font-inter text-sm">Home</a>
+        <a href="product.html" class="block px-4 py-3 rounded-xl text-gray-300 hover:text-white hover:bg-dark-muted transition-colors font-inter text-sm">Products</a>
+        <a href="About.html" class="block px-4 py-3 rounded-xl text-gray-300 hover:text-white hover:bg-dark-muted transition-colors font-inter text-sm">About</a>
+        <a href="contact.html" class="block px-4 py-3 rounded-xl text-gray-300 hover:text-white bg-dark-muted transition-colors font-inter text-sm text-primary">Contact</a>
+        <div class="flex items-center gap-3 pt-3 px-4">
+          <a href="login.html" class="flex-1 text-center font-inter text-sm text-gray-400 hover:text-white transition-colors border border-dark-border rounded-lg py-2">Sign In</a>
+          <a href="register.html" class="flex-1 text-center bg-primary hover:bg-primaryHover font-poppins font-semibold text-sm text-white rounded-lg py-2 transition-colors">Sign Up</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <section class="py-16 px-4 text-center">
+    <span class="font-inter text-xs text-primary font-medium tracking-widest uppercase">Get in Touch</span>
+    <h1 class="font-poppins font-extrabold text-4xl md:text-5xl text-white mt-3 mb-4">Contact Us</h1>
+    <p class="font-inter text-gray-400 text-base max-w-lg mx-auto">Have a question or feedback? We'd love to hear from you. Fill out the form below and we'll get back to you as soon as possible.</p>
+  </section>
+
+  <!-- Contact Form + Info -->
+  <section class="pb-20 px-4">
+    <div class="max-w-5xl mx-auto">
+
+      <!-- Info Cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
+        <div class="bg-dark-card rounded-2xl border border-dark-border p-6 flex flex-col items-center text-center">
+          <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
+            <i data-lucide="map-pin" class="w-6 h-6 text-primary"></i>
+          </div>
+          <h3 class="font-poppins font-semibold text-white text-sm mb-1">Our Location</h3>
+          <p class="font-inter text-gray-400 text-xs">123 Commerce St, San Francisco, CA 94105</p>
+        </div>
+        <div class="bg-dark-card rounded-2xl border border-dark-border p-6 flex flex-col items-center text-center">
+          <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
+            <i data-lucide="phone" class="w-6 h-6 text-primary"></i>
+          </div>
+          <h3 class="font-poppins font-semibold text-white text-sm mb-1">Phone Number</h3>
+          <p class="font-inter text-gray-400 text-xs">+1 (555) 123-4567</p>
+        </div>
+        <div class="bg-dark-card rounded-2xl border border-dark-border p-6 flex flex-col items-center text-center">
+          <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
+            <i data-lucide="mail" class="w-6 h-6 text-primary"></i>
+          </div>
+          <h3 class="font-poppins font-semibold text-white text-sm mb-1">Email Address</h3>
+          <p class="font-inter text-gray-400 text-xs">support@shopease.com</p>
+        </div>
+      </div>
+
+      <!-- Form Card -->
+      <div class="bg-dark-card rounded-3xl border border-dark-border p-8 shadow-2xl">
+        <form id="contactForm" novalidate>
+
+          <!-- Row 1: Full Name + Email -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+            <!-- Full Name -->
+            <div>
+              <label class="block font-poppins font-semibold text-sm text-gray-300 mb-2" for="fullName">Full Name <span class="text-primary">*</span></label>
+              <div class="relative">
+                <span class="input-icon">
+                  <i data-lucide="user" class="w-5 h-5"></i>
+                </span>
+                <input
+                  id="fullName"
+                  type="text"
+                  placeholder="John Doe"
+                  autocomplete="name"
+                  class="w-full bg-dark-muted border border-dark-border rounded-xl py-3.5 pl-12 pr-4 text-gray-200 placeholder-gray-500 font-inter text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all duration-200"
+                />
+              </div>
+              <div id="fullNameError" class="error-msg items-center gap-1.5 mt-2 pl-1">
+                <i data-lucide="alert-circle" class="w-3.5 h-3.5 text-red-400 flex-shrink-0"></i>
+                <span class="font-inter text-xs text-red-400"></span>
+              </div>
+            </div>
+
+            <!-- Email -->
+            <div>
+              <label class="block font-poppins font-semibold text-sm text-gray-300 mb-2" for="email">Email Address <span class="text-primary">*</span></label>
+              <div class="relative">
+                <span class="input-icon">
+                  <i data-lucide="mail" class="w-5 h-5"></i>
+                </span>
+                <input
+                  id="email"
+                  type="email"
+                  placeholder="john@example.com"
+                  autocomplete="email"
+                  class="w-full bg-dark-muted border border-dark-border rounded-xl py-3.5 pl-12 pr-4 text-gray-200 placeholder-gray-500 font-inter text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all duration-200"
+                />
+              </div>
+              <div id="emailError" class="error-msg items-center gap-1.5 mt-2 pl-1">
+                <i data-lucide="alert-circle" class="w-3.5 h-3.5 text-red-400 flex-shrink-0"></i>
+                <span class="font-inter text-xs text-red-400"></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Row 2: Address + Phone -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
+            <!-- Address -->
+            <div>
+              <label class="block font-poppins font-semibold text-sm text-gray-300 mb-2" for="address">Address <span class="text-primary">*</span></label>
+              <div class="relative">
+                <span class="input-icon">
+                  <i data-lucide="map-pin" class="w-5 h-5"></i>
+                </span>
+                <input
+                  id="address"
+                  type="text"
+                  placeholder="123 Main St, City, Country"
+                  autocomplete="street-address"
+                  class="w-full bg-dark-muted border border-dark-border rounded-xl py-3.5 pl-12 pr-4 text-gray-200 placeholder-gray-500 font-inter text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all duration-200"
+                />
+              </div>
+              <div id="addressError" class="error-msg items-center gap-1.5 mt-2 pl-1">
+                <i data-lucide="alert-circle" class="w-3.5 h-3.5 text-red-400 flex-shrink-0"></i>
+                <span class="font-inter text-xs text-red-400"></span>
+              </div>
+            </div>
+
+            <!-- Phone -->
+            <div>
+              <label class="block font-poppins font-semibold text-sm text-gray-300 mb-2" for="phone">Phone Number <span class="text-gray-500 font-normal">(optional)</span></label>
+              <div class="relative">
+                <span class="input-icon">
+                  <i data-lucide="phone" class="w-5 h-5"></i>
+                </span>
+                <input
+                  id="phone"
+                  type="tel"
+                  placeholder="0123456789"
+                  autocomplete="tel"
+                  class="w-full bg-dark-muted border border-dark-border rounded-xl py-3.5 pl-12 pr-4 text-gray-200 placeholder-gray-500 font-inter text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all duration-200"
+                />
+              </div>
+              <div id="phoneError" class="error-msg items-center gap-1.5 mt-2 pl-1">
+                <i data-lucide="alert-circle" class="w-3.5 h-3.5 text-red-400 flex-shrink-0"></i>
+                <span class="font-inter text-xs text-red-400"></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Subject -->
+          <div class="mb-5">
+            <label class="block font-poppins font-semibold text-sm text-gray-300 mb-2" for="subject">Subject <span class="text-primary">*</span></label>
+            <div class="relative">
+              <span class="input-icon">
+                <i data-lucide="tag" class="w-5 h-5"></i>
+              </span>
+              <input
+                id="subject"
+                type="text"
+                placeholder="How can we help you?"
+                class="w-full bg-dark-muted border border-dark-border rounded-xl py-3.5 pl-12 pr-4 text-gray-200 placeholder-gray-500 font-inter text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all duration-200"
+              />
+            </div>
+            <div id="subjectError" class="error-msg items-center gap-1.5 mt-2 pl-1">
+              <i data-lucide="alert-circle" class="w-3.5 h-3.5 text-red-400 flex-shrink-0"></i>
+              <span class="font-inter text-xs text-red-400"></span>
+            </div>
+          </div>
+
+          <!-- Message -->
+          <div class="mb-8">
+            <label class="block font-poppins font-semibold text-sm text-gray-300 mb-2" for="message">Message <span class="text-primary">*</span></label>
+            <div class="relative">
+              <span class="input-icon-textarea">
+                <i data-lucide="message-square" class="w-5 h-5"></i>
+              </span>
+              <textarea
+                id="message"
+                rows="5"
+                placeholder="Write your message here..."
+                class="w-full bg-dark-muted border border-dark-border rounded-xl py-3.5 pl-12 pr-4 text-gray-200 placeholder-gray-500 font-inter text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all duration-200 resize-none"
+              ></textarea>
+            </div>
+            <div id="messageError" class="error-msg items-center gap-1.5 mt-2 pl-1">
+              <i data-lucide="alert-circle" class="w-3.5 h-3.5 text-red-400 flex-shrink-0"></i>
+              <span class="font-inter text-xs text-red-400"></span>
+            </div>
+          </div>
+
+          <!-- Submit -->
+          <button
+            type="submit"
+            id="submitBtn"
+            class="w-full bg-primary hover:bg-primaryHover font-poppins font-bold text-white text-base py-3.5 rounded-xl transition-all duration-200 hover:shadow-lg hover:shadow-primary/25 active:scale-[0.98] flex items-center justify-center gap-2"
+          >
+            <span id="submitText">Send Message</span>
+            <i data-lucide="send" class="w-5 h-5" id="submitIcon"></i>
+          </button>
+        </form>
+
+        <!-- Back to Home -->
+        <div class="text-center mt-6">
+          <a href="home.html" class="font-inter text-sm text-gray-500 hover:text-gray-300 transition-colors inline-flex items-center gap-1.5">
+            <i data-lucide="arrow-left" class="w-4 h-4"></i>
+            Back to Home
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="border-t border-dark-border py-12 px-4">
+    <div class="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
+      <!-- Brand -->
+      <div class="col-span-2 md:col-span-1">
+        <a href="home.html" class="flex items-center gap-2.5 mb-4">
+          <div class="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center">
+            <i data-lucide="shield-check" class="w-5 h-5 text-primary"></i>
+          </div>
+          <span class="font-poppins font-bold text-xl text-white">ShopEase</span>
+        </a>
+        <p class="font-inter text-gray-500 text-sm leading-relaxed">Your trusted online marketplace for quality products and exceptional service.</p>
+      </div>
+      <!-- Quick Links -->
+      <div>
+        <h4 class="font-poppins font-semibold text-white text-sm mb-4">Quick Links</h4>
+        <ul class="space-y-2.5">
+          <li><a href="home.html" class="font-inter text-sm text-gray-500 hover:text-white transition-colors">Home</a></li>
+          <li><a href="product.html" class="font-inter text-sm text-gray-500 hover:text-white transition-colors">Products</a></li>
+          <li><a href="About.html" class="font-inter text-sm text-gray-500 hover:text-white transition-colors">About Us</a></li>
+          <li><a href="contact.html" class="font-inter text-sm text-primary hover:text-primaryHover transition-colors">Contact</a></li>
+        </ul>
+      </div>
+      <!-- Account -->
+      <div>
+        <h4 class="font-poppins font-semibold text-white text-sm mb-4">Account</h4>
+        <ul class="space-y-2.5">
+          <li><a href="login.html" class="font-inter text-sm text-gray-500 hover:text-white transition-colors">Sign In</a></li>
+          <li><a href="register.html" class="font-inter text-sm text-gray-500 hover:text-white transition-colors">Sign Up</a></li>
+          <li><a href="charts.html" class="font-inter text-sm text-gray-500 hover:text-white transition-colors">Dashboard</a></li>
+        </ul>
+      </div>
+      <!-- Support -->
+      <div>
+        <h4 class="font-poppins font-semibold text-white text-sm mb-4">Support</h4>
+        <ul class="space-y-2.5">
+          <li><a href="#" class="font-inter text-sm text-gray-500 hover:text-white transition-colors">Help Center</a></li>
+          <li><a href="#" class="font-inter text-sm text-gray-500 hover:text-white transition-colors">Shipping Info</a></li>
+          <li><a href="#" class="font-inter text-sm text-gray-500 hover:text-white transition-colors">Privacy Policy</a></li>
+          <li><a href="#" class="font-inter text-sm text-gray-500 hover:text-white transition-colors">Terms of Service</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="max-w-7xl mx-auto mt-10 pt-6 border-t border-dark-border text-center">
+      <p class="font-inter text-xs text-gray-600">© 2026 ShopEase. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+
+    // Mobile menu
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+      lucide.createIcons();
+    });
+
+    // Elements
+    const form = document.getElementById('contactForm');
+    const fullNameInput = document.getElementById('fullName');
+    const emailInput = document.getElementById('email');
+    const addressInput = document.getElementById('address');
+    const phoneInput = document.getElementById('phone');
+    const subjectInput = document.getElementById('subject');
+    const messageInput = document.getElementById('message');
+    const submitBtn = document.getElementById('submitBtn');
+    const submitText = document.getElementById('submitText');
+    const submitIcon = document.getElementById('submitIcon');
+
+    // Validation helpers
+    function showError(input, errorEl, message) {
+      input.classList.add('input-error');
+      errorEl.querySelector('span').textContent = message;
+      errorEl.classList.add('show');
+      lucide.createIcons();
+    }
+
+    function clearError(input, errorEl) {
+      input.classList.remove('input-error');
+      errorEl.classList.remove('show');
+    }
+
+    function isValidEmail(value) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
+    }
+
+    function isValidPhone(value) {
+      if (!value) return true;
+      return /^0\d{9}$/.test(value.trim());
+    }
+
+    // Field validators
+    function validateFullName(blur) {
+      const value = fullNameInput.value.trim();
+      if (!value) {
+        showError(fullNameInput, document.getElementById('fullNameError'), 'Full name is required');
+        return false;
+      }
+      clearError(fullNameInput, document.getElementById('fullNameError'));
+      return true;
+    }
+
+    function validateEmailField(blur) {
+      const value = emailInput.value.trim();
+      if (!value) {
+        showError(emailInput, document.getElementById('emailError'), 'Email is required');
+        return false;
+      }
+      if (!isValidEmail(value)) {
+        showError(emailInput, document.getElementById('emailError'), 'Invalid email address');
+        return false;
+      }
+      clearError(emailInput, document.getElementById('emailError'));
+      return true;
+    }
+
+    function validateAddress(blur) {
+      const value = addressInput.value.trim();
+      if (!value) {
+        showError(addressInput, document.getElementById('addressError'), 'Address is required');
+        return false;
+      }
+      clearError(addressInput, document.getElementById('addressError'));
+      return true;
+    }
+
+    function validatePhone(blur) {
+      const value = phoneInput.value.trim();
+      if (value && !isValidPhone(value)) {
+        showError(phoneInput, document.getElementById('phoneError'), 'Phone must be 10 digits starting with 0');
+        return false;
+      }
+      clearError(phoneInput, document.getElementById('phoneError'));
+      return true;
+    }
+
+    function validateSubject(blur) {
+      const value = subjectInput.value.trim();
+      if (!value) {
+        showError(subjectInput, document.getElementById('subjectError'), 'Subject is required');
+        return false;
+      }
+      clearError(subjectInput, document.getElementById('subjectError'));
+      return true;
+    }
+
+    function validateMessage(blur) {
+      const value = messageInput.value.trim();
+      if (!value) {
+        showError(messageInput, document.getElementById('messageError'), 'Message is required');
+        return false;
+      }
+      clearError(messageInput, document.getElementById('messageError'));
+      return true;
+    }
+
+    // Real-time clear on input
+    fullNameInput.addEventListener('input', () => {
+      if (fullNameInput.classList.contains('input-error')) validateFullName(false);
+    });
+    emailInput.addEventListener('input', () => {
+      if (emailInput.classList.contains('input-error')) validateEmailField(false);
+    });
+    addressInput.addEventListener('input', () => {
+      if (addressInput.classList.contains('input-error')) validateAddress(false);
+    });
+    phoneInput.addEventListener('input', () => {
+      if (phoneInput.classList.contains('input-error')) validatePhone(false);
+    });
+    subjectInput.addEventListener('input', () => {
+      if (subjectInput.classList.contains('input-error')) validateSubject(false);
+    });
+    messageInput.addEventListener('input', () => {
+      if (messageInput.classList.contains('input-error')) validateMessage(false);
+    });
+
+    // Blur validation
+    fullNameInput.addEventListener('blur', () => validateFullName(true));
+    emailInput.addEventListener('blur', () => validateEmailField(true));
+    addressInput.addEventListener('blur', () => validateAddress(true));
+    phoneInput.addEventListener('blur', () => validatePhone(true));
+    subjectInput.addEventListener('blur', () => validateSubject(true));
+    messageInput.addEventListener('blur', () => validateMessage(true));
+
+    // Form submit
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const nameOk = validateFullName(true);
+      const emailOk = validateEmailField(true);
+      const addrOk = validateAddress(true);
+      const phoneOk = validatePhone(true);
+      const subjectOk = validateSubject(true);
+      const messageOk = validateMessage(true);
+
+      if (nameOk && emailOk && addrOk && phoneOk && subjectOk && messageOk) {
+        submitBtn.disabled = true;
+        submitText.textContent = 'Sending...';
+        submitIcon.setAttribute('data-lucide', 'loader-2');
+        submitIcon.classList.add('animate-spin');
+        lucide.createIcons();
+
+        setTimeout(() => {
+          submitText.textContent = 'Message Sent!';
+          submitIcon.setAttribute('data-lucide', 'check-circle');
+          submitIcon.classList.remove('animate-spin');
+          submitIcon.classList.add('animate-bounce');
+          submitBtn.classList.remove('bg-primary', 'hover:bg-primaryHover');
+          submitBtn.classList.add('bg-green-600');
+          lucide.createIcons();
+
+          setTimeout(() => {
+            form.reset();
+            submitBtn.disabled = false;
+            submitText.textContent = 'Send Message';
+            submitIcon.setAttribute('data-lucide', 'send');
+            submitIcon.classList.remove('animate-bounce');
+            submitBtn.classList.remove('bg-green-600');
+            submitBtn.classList.add('bg-primary', 'hover:bg-primaryHover');
+            lucide.createIcons();
+          }, 2000);
+        }, 1500);
+      }
+    });
+  </script>
+
+  <style>
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .animate-spin { animation: spin 1s linear infinite; }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-3px); }
+    }
+    .animate-bounce { animation: bounce 0.6s ease infinite; }
+  </style>
+
+</body>
+</html>
